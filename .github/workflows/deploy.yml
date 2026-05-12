@@ -26,7 +26,11 @@ jobs:
 
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2
-
+       
+      - name: Debug ENV
+        run: |
+          echo "Account ID is: $ACCOUNT_ID"
+      
       - name: Build and Push Frontend
         run: |
           docker build -t frontend ./frontend
