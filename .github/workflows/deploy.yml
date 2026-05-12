@@ -1,4 +1,4 @@
-name: Build and Push to ECR
+name: CI - Build and Push to ECR
 
 on:
   push:
@@ -8,6 +8,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    env:
+      AWS_REGION: us-east-2
+      ACCOUNT_ID: ${{ secrets.ACCOUNT_ID }}
 
     steps:
       - name: Checkout code
@@ -26,11 +30,11 @@ jobs:
       - name: Build and Push Frontend
         run: |
           docker build -t frontend ./frontend
-          docker tag frontend:latest ${{ secrets.ACCOUNT_ID }}.dkr.ecr.us-east-2.amazonaws.com/frontend:latest
-          docker push ${{ secrets.ACCOUNT_ID }}.dkr.ecr.us-east-2.amazonaws.com/frontend:latest
+          docker tag frontend:latest $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/frontend:latest
+          docker push $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/frontend:latest
 
       - name: Build and Push Backend
         run: |
           docker build -t backend ./backend
-          docker tag backend:latest ${{ secrets.ACCOUNT_ID }}.dkr.ecr.us-east-2.amazonaws.com/backend:latest
-          docker push ${{ secrets.ACCOUNT_ID }}.dkr.ecr.us-east-2.amazonaws.com/backend:latest
+          docker tag backend:latest $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/backend:latest
+          docker push $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/backend:latest
