@@ -22,9 +22,7 @@ jobs:
 
       - name: Login to ECR
         run: |
-          aws ecr get-login-password --region us-east-2 | \
-          docker login --username AWS \
-          --password-stdin ${{ secrets.ACCOUNT_ID }}.dkr.ecr.us-east-2.amazonaws.com
+          aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin ${{ secrets.ACCOUNT_ID }}.dkr.ecr.us-east-2.amazonaws.com
 
       - name: Build and Push Frontend
         run: |
